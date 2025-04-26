@@ -49,94 +49,77 @@
   <div id="reaction" class="reaction-box" style="display: none;"></div>
 
   <script>
-const reactions = [
-  "That take's weaker than the Warriors’ defence after a beer break.",
-  "This sounds like a Raiders fan after a loss. Stop lying to yourself.",
-  "Even the Broncos would drop that take after a pre-season trial.",
-  "Your take is like the Tigers’ finals hopes — non-existent.",
-  "That’s the sort of take a Newcastle fan would say after 3 beers.",
-  "Is that your footy knowledge or just the sound of a hornet’s nest?",
-  "You talk more rubbish than a Manly fan after a loss.",
-  "Bro, you could’ve at least *tried* to get this take right.",
-  "I haven’t seen this much delusion since the Bulldogs’ last premiership win.",
-  "Did a Parra fan write that or was it just their hopes?",
-  "This take is more cooked than a Cowboys' away game.",
-  "I’ve seen more passion in a pre-season trial match.",
-  "Is this the take you give your mates after losing the footy tipping comp?",
-  "That take’s got less support than the Dolphins in 2023.",
-  "You're the reason we need a challenge system in real life.",
-  "Bro, that take’s colder than a Melbourne winter.",
-  "Even the NRL refs couldn’t make a call that bad.",
-  "You might wanna pass that one to the Dragons for review. They know bad takes.",
-  "That’s like picking the Cowboys to make the top 4 every year.",
-  "You just dropped a bomb more explosive than a Broncos’ season collapse.",
-  "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
-  "Even the Knights wouldn't take that opinion seriously.",
-  "That’s like calling the Rabbitohs the real winners of every grand final.",
-  "Is this a take or a cry for help? I need answers.",
-  "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
-  "That take’s more hopeless than a Gold Coast season review.",
-  "This is the kind of take that makes you a meme on the NRL subreddit.",
-  "Bro, that was less hot than a Bulldogs’ attack after round 5.",
-  "You’ve just made every team in the NRL laugh in unison.",
-  "That’s the kind of take that makes you banned from the footy club.",
-  "Bro, that’s a mistake bigger than a Titans season review.",
-  "You talk like a Warriors fan who just won a game. Settle down.",
-  "That take’s about as accurate as a Manly fan trying to pick a winner.",
-  "Your take’s more cooked than a Canberra penalty in the finals.",
-  "Bro, that take’s just straight-up pain for every NRL fan in existence.",
-  "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
-  "I’d rather listen to the NRL’s official highlights than that.",
-  "That take's got more flaws than the Bulldogs' attack in the past decade.",
-  "You sound like a Parra fan after they’ve lost a final.",
-  "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-  "I’d rather watch a Raiders fan explain how they almost won than hear that.",
-  "This take is worse than the Tigers' defence after a weekend off.",
-  "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
-  "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-  "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-  "This take's got more issues than a Bulldogs recruitment strategy.",
-  "You just compared your team to a premiership contender? C’mon, mate.",
-  "That take’s like the Titans’ finals hopes: completely shattered and delusional.",
-  "This roast hits harder than the Raiders' tackle technique.",
-  "Bro, this take is more out of place than a Sharks’ premiership ring.",
-  "That take's got less structure than the Tigers' attack.",
-  "Your opinion’s more inconsistent than the NRL ref calls.",
-  "Bro, even the Warriors would reject that take for being too negative.",
-  "I’ve seen better analysis from a kid playing SuperCoach in their lunch break.",
-  "That’s like picking the Cowboys to make the top 4 every year.",
-  "You just dropped a bomb more explosive than a Broncos’ season collapse.",
-  "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
-  "Even the Knights wouldn't take that opinion seriously.",
-  "That’s like calling the Rabbitohs the real winners of every grand final.",
-  "Is this a take or a cry for help? I need answers.",
-  "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
-  "That take’s more hopeless than a Gold Coast season review.",
-  "This is the kind of take that makes you a meme on the NRL subreddit.",
-  "Bro, that was less hot than a Bulldogs’ attack after round 5.",
-  "You’ve just made every team in the NRL laugh in unison.",
-  "That’s the kind of take that makes you banned from the footy club.",
-  "Bro, that’s a mistake bigger than a Titans season review.",
-  "You talk like a Warriors fan who just won a game. Settle down.",
-  "That take’s about as accurate as a Manly fan trying to pick a winner.",
-  "Your take’s more cooked than a Canberra penalty in the finals.",
-  "Bro, that take’s just straight-up pain for every NRL fan in existence.",
-  "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
-  "I’d rather listen to the NRL’s official highlights than that.",
-  "That take's got more flaws than the Bulldogs' attack in the past decade.",
-  "You sound like a Parra fan after they’ve lost a final.",
-  "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-  "I’d rather watch a Raiders fan explain how they almost won than hear that.",
-  "This take is worse than the Tigers' defence after a weekend off.",
-  "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
-  "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-  "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-  "This take's got more issues than a Bulldogs recruitment strategy.",
-  "You just compared your team to a premiership contender? C’mon, mate.",
-  "That take’s like the Titans’ finals hopes: completely shattered and delusional.",
-  "This roast hits harder than the Raiders' tackle technique.",
-  "Bro, this take is more out of place than a Sharks’ premiership ring."
-];
+    const reactions = [
+      "That take's weaker than the Warriors’ defence after a beer break.",
+      "This sounds like a Raiders fan after a loss. Stop lying to yourself.",
+      "Even the Broncos would drop that take after a pre-season trial.",
+      "Your take is like the Tigers’ finals hopes — non-existent.",
+      "That’s the sort of take a Newcastle fan would say after 3 beers.",
+      "Is that your footy knowledge or just the sound of a hornet’s nest?",
+      "You talk more rubbish than a Manly fan after a loss.",
+      "Bro, you could’ve at least *tried* to get this take right.",
+      "I haven’t seen this much delusion since the Bulldogs’ last premiership win.",
+      "Did a Parra fan write that or was it just their hopes?",
+      "This take is more cooked than a Cowboys' away game.",
+      "I’ve seen more passion in a pre-season trial match.",
+      "Is this the take you give your mates after losing the footy tipping comp?",
+      "That take’s got less support than the Dolphins in 2023.",
+      "You're the reason we need a challenge system in real life.",
+      "Bro, that take’s colder than a Melbourne winter.",
+      "Even the NRL refs couldn’t make a call that bad.",
+      "You might wanna pass that one to the Dragons for review. They know bad takes.",
+      "That’s like picking the Cowboys to make the top 4 every year.",
+      "You just dropped a bomb more explosive than a Broncos’ season collapse.",
+      "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
+      "Even the Knights wouldn't take that opinion seriously.",
+      "That’s like calling the Rabbitohs the real winners of every grand final.",
+      "Is this a take or a cry for help? I need answers.",
+      "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
+      "That take’s more hopeless than a Gold Coast season review.",
+      "This is the kind of take that makes you a meme on the NRL subreddit.",
+      "Bro, that was less hot than a Bulldogs’ attack after round 5.",
+      "You’ve just made every team in the NRL laugh in unison.",
+      "That’s the kind of take that makes you banned from the footy club.",
+      "Bro, that’s a mistake bigger than a Titans season review.",
+      "You talk like a Warriors fan who just won a game. Settle down.",
+      "That take’s about as accurate as a Manly fan trying to pick a winner.",
+      "Your take’s more cooked than a Canberra penalty in the finals.",
+      "Bro, that take’s just straight-up pain for every NRL fan in existence.",
+      "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
+      "I’d rather listen to the NRL’s official highlights than that.",
+      "That take's got more flaws than the Bulldogs' attack in the past decade.",
+      "You sound like a Parra fan after they’ve lost a final.",
+      "That’s more ridiculous than the Knights calling themselves premiership contenders.",
+      "I’d rather watch a Raiders fan explain how they almost won than hear that.",
+      "This take is worse than the Tigers' defence after a weekend off.",
+      "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
+      "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
+      "That’s like a Broncos fan claiming they invented the sport. Please stop.",
+      "This take's got more issues than a Bulldogs recruitment strategy.",
+      "You just compared your team to a premiership contender? C’mon, mate.",
+      "That take’s like the Titans’ finals hopes: completely shattered and delusional.",
+      "This roast hits harder than the Raiders' tackle technique.",
+      "Bro, this take is more out of place than a Sharks’ premiership ring."
+    ];
+
+    // Add team keyword mapping for responses
+    const teamKeywords = {
+      "Warriors": "That take's weaker than the Warriors’ defence after a beer break.",
+      "Raiders": "This sounds like a Raiders fan after a loss. Stop lying to yourself.",
+      "Broncos": "Even the Broncos would drop that take after a pre-season trial.",
+      "Tigers": "Your take is like the Tigers’ finals hopes — non-existent.",
+      "Newcastle": "That’s the sort of take a Newcastle fan would say after 3 beers.",
+      "Manly": "You talk more rubbish than a Manly fan after a loss.",
+      "Bulldogs": "I haven’t seen this much delusion since the Bulldogs’ last premiership win.",
+      "Parra": "Did a Parra fan write that or was it just their hopes?",
+      "Cowboys": "This take is more cooked than a Cowboys' away game.",
+      "Dolphins": "That take’s got less support than the Dolphins in 2023.",
+      "Melbourne": "Bro, that take’s colder than a Melbourne winter.",
+      "Knights": "Even the Knights wouldn't take that opinion seriously.",
+      "Rabbitohs": "That’s like calling the Rabbitohs the real winners of every grand final.",
+      "Gold Coast": "That take’s more hopeless than a Gold Coast season review.",
+      "Sharks": "Bro, this take is more out of place than a Sharks’ premiership ring."
+    };
 
     const status = document.getElementById("status");
     const reactionDiv = document.getElementById("reaction");
@@ -162,16 +145,32 @@ const reactions = [
         const take = event.results[0][0].transcript;
         status.innerText = `You said: "${take}"`;
 
-        const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
-        reactionDiv.innerText = `"${randomReaction}"`;
+        // Check for team-specific reactions
+        let response = getTeamResponse(take);
+        if (!response) {
+          // If no team-specific response, fall back to a random one
+          response = reactions[Math.floor(Math.random() * reactions.length)];
+        }
+
+        reactionDiv.innerText = `"${response}"`;
         reactionDiv.style.display = "block";
 
-        speakReaction(randomReaction);
+        speakReaction(response);
       };
 
       recognition.onerror = (event) => {
         status.innerText = "Error: " + event.error;
       };
+    }
+
+    function getTeamResponse(take) {
+      // Loop through team keywords and check if they are mentioned in the take
+      for (let team in teamKeywords) {
+        if (take.toLowerCase().includes(team.toLowerCase())) {
+          return teamKeywords[team];
+        }
+      }
+      return null;
     }
 
     function speakReaction(text) {
