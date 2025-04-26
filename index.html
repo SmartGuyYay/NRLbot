@@ -1,127 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NRL Reactions</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NRL Voice Roast Bot</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      background: #000;
+      color: white;
+      font-family: sans-serif;
       text-align: center;
-      margin-top: 50px;
-    }
-    .reaction {
-      font-size: 24px;
-      font-weight: bold;
-      color: #FF6347; /* Tomato color */
-      margin-top: 20px;
+      padding: 40px 20px;
     }
     button {
+      padding: 15px 30px;
       font-size: 18px;
-      padding: 10px 20px;
-      background-color: #4CAF50;
+      background-color: #0070f3;
       color: white;
       border: none;
+      border-radius: 10px;
       cursor: pointer;
+      margin: 20px 0;
     }
     button:hover {
-      background-color: #45a049;
+      background-color: #0056c9;
+    }
+    .reaction-box {
+      margin-top: 30px;
+      padding: 20px;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
 
-  <h1>Random NRL Reaction</h1>
-  <p>Click the button to get a random NRL reaction!</p>
+  <h1>🏉 NRL Voice Roast Bot</h1>
+  <p>Speak your hot take below ⬇️</p>
 
-  <div id="reaction" class="reaction">Your reaction will appear here.</div>
+  <button onclick="startListening()">🎤 Start Talking</button>
 
-  <button onclick="showRandomReaction()">Get Reaction</button>
+  <div id="status"></div>
+  <div id="reaction" class="reaction-box" style="display: none;"></div>
 
   <script>
-    const reactions = [
-      // Non-team specific reactions
-      "Bro, that's a take more cooked than a Canberra penalty in the finals.",
-      "You sound like a Parra fan after they’ve lost a final.",
-      "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-      "Is this a take or a cry for help? I need answers.",
-      "I’d rather watch a Raiders fan explain how they almost won than hear that.",
-      "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
-      "I’ve seen better analysis from a kid playing SuperCoach in their lunch break.",
-      "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-      "This roast hits harder than the Raiders' tackle technique.",
-      "Your opinion’s more inconsistent than the NRL ref calls.",
-      
-      // Reactions related to specific teams (Broncos)
-      "Even the Broncos would drop that take after a pre-season trial.",
-      "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-      "You just dropped a bomb more explosive than a Broncos’ season collapse.",
-      
-      // Reactions related to specific teams (Tigers)
-      "Your take is like the Tigers’ finals hopes — non-existent.",
-      "This take is worse than the Tigers' defence after a weekend off.",
-      "That’s more ridiculous than the Tigers calling themselves premiership contenders.",
-      
-      // Reactions related to specific teams (Raiders)
-      "This take sounds like a Raiders fan after a loss. Stop lying to yourself.",
-      "I’d rather listen to the NRL’s official highlights than that.",
-      "You just compared your team to a premiership contender? C’mon, mate.",
-      
-      // Reactions related to specific teams (Manly)
-      "You talk more rubbish than a Manly fan after a loss.",
-      "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
-      "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
-      
-      // Reactions related to specific teams (Warriors)
-      "Bro, you talk like a Warriors fan who just won a game. Settle down.",
-      "Bro, even the Warriors would reject that take for being too negative.",
-      
-      // Reactions related to specific teams (Knights)
-      "Even the Knights wouldn't take that opinion seriously.",
-      "That’s like calling the Rabbitohs the real winners of every grand final.",
-      
-      // Reactions related to specific teams (Cowboys)
-      "That take is more cooked than a Cowboys' away game.",
-      "That’s like picking the Cowboys to make the top 4 every year.",
-      
-      // Reactions related to specific teams (Parra)
-      "Did a Parra fan write that or was it just their hopes?",
-      "Bro, that’s colder than a Melbourne winter.",
-      
-      // Reactions related to specific teams (Gold Coast)
-      "That take’s more hopeless than a Gold Coast season review.",
-      "This is the kind of take that makes you a meme on the NRL subreddit.",
-      
-      // Reactions related to specific teams (Rabbitohs)
-      "That’s like calling the Rabbitohs the real winners of every grand final.",
-      "Bro, that take’s straight-up pain for every NRL fan in existence.",
-      
-      // Reactions related to specific teams (Bulldogs)
-      "That take's got more flaws than the Bulldogs' attack in the past decade.",
-      "Bro, that was less hot than a Bulldogs’ attack after round 5.",
-      
-      // Reactions related to specific teams (Sharks)
-      "Bro, this take is more out of place than a Sharks’ premiership ring.",
-      "That take's got less structure than the Tigers' attack.",
-      
-      // Reactions related to specific teams (Dolphins)
-      "That take’s got less support than the Dolphins in 2023.",
-      "You just compared your team to a premiership contender? C’mon, mate.",
-      
-      // Reactions related to specific teams (Storm)
-      "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-      "That take is more out of place than a Sharks' premiership ring."
-    ];
+    const status = document.getElementById("status");
+    const reactionDiv = document.getElementById("reaction");
 
-    function showRandomReaction() {
-      // Generate a random index
-      const randomIndex = Math.floor(Math.random() * reactions.length);
-      // Get the reaction from the array
-      const randomReaction = reactions[randomIndex];
-      // Display the reaction in the 'reaction' div
-      document.getElementById('reaction').innerText = randomReaction;
+    function startListening() {
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        alert("Sorry, your browser doesn't support voice recognition 😢");
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-AU';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      status.innerText = "Listening... 🎙️";
+      reactionDiv.style.display = "none";
+
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const take = event.results[0][0].transcript;
+        status.innerText = `You said: "${take}"`;
+
+        const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
+        reactionDiv.innerText = `"${randomReaction}"`;
+        reactionDiv.style.display = "block";
+
+        speakReaction(randomReaction);
+      };
+
+      recognition.onerror = (event) => {
+        status.innerText = "Error: " + event.error;
+      };
+    }
+
+    function speakReaction(text) {
+      const synth = window.speechSynthesis;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'en-AU';
+      utter.pitch = 1;
+      utter.rate = 1;
+      synth.speak(utter);
     }
   </script>
-
 </body>
 </html>
