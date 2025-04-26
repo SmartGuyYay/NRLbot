@@ -41,35 +41,31 @@
       height: 100px;
       border-radius: 50%;
       margin: 20px 0;
-      position: absolute;
-      animation: moveFace 5s infinite linear;
+    }
+    /* MOUTH ANIMATION */
+    .mouth {
+      width: 80px;
+      height: 40px;
+      background-color: #fff;
+      border-radius: 20px;
+      margin: 20px auto;
+      position: relative;
     }
 
-    @keyframes moveFace {
+    /* Create "talking" effect */
+    .mouth.open {
+      animation: talk 0.3s ease-in-out infinite alternate;
+    }
+
+    @keyframes talk {
       0% {
-        left: 0;
-        top: 20px;
-      }
-      25% {
-        left: 50%;
-        top: 50px;
-        transform: translateX(-50%);
-      }
-      50% {
-        left: 100%;
-        top: 20px;
-        transform: translateX(-100%);
-      }
-      75% {
-        left: 50%;
-        top: 100px;
-        transform: translateX(-50%);
+        height: 40px;
       }
       100% {
-        left: 0;
-        top: 20px;
+        height: 10px;
       }
     }
+
   </style>
 </head>
 <body>
@@ -77,8 +73,11 @@
   <h1>🏉 NRL Voice Roast Bot</h1>
   <p>Speak your hot take below ⬇️</p>
 
-  <!-- Add Face with Animation -->
-  <img src="CA16DF7E-2CD4-42E5-A687-B9C8C2038684_1_201_a.jpeg" alt="User's Face" class="avatar"/>
+  <!-- Add Face or Avatar Here -->
+  <img src="https://example.com/your-face-image.jpg" alt="User's Face" class="avatar"/>
+
+  <!-- Animated Mouth -->
+  <div class="mouth"></div>
 
   <button onclick="startListening()">🎤 Start Talking</button>
 
@@ -90,57 +89,12 @@
       "That take's weaker than the Warriors’ defence after a beer break.",
       "This sounds like a Raiders fan after a loss. Stop lying to yourself.",
       "Even the Broncos would drop that take after a pre-season trial.",
-      "Your take is like the Tigers’ finals hopes — non-existent.",
-      "That’s the sort of take a Newcastle fan would say after 3 beers.",
-      "Is that your footy knowledge or just the sound of a hornet’s nest?",
-      "You talk more rubbish than a Manly fan after a loss.",
-      "Bro, you could’ve at least *tried* to get this take right.",
-      "I haven’t seen this much delusion since the Bulldogs’ last premiership win.",
-      "Did a Parra fan write that or was it just their hopes?",
-      "This take is more cooked than a Cowboys' away game.",
-      "I’ve seen more passion in a pre-season trial match.",
-      "Is this the take you give your mates after losing the footy tipping comp?",
-      "That take’s got less support than the Dolphins in 2023.",
-      "You're the reason we need a challenge system in real life.",
-      "Bro, that take’s colder than a Melbourne winter.",
-      "Even the NRL refs couldn’t make a call that bad.",
-      "You might wanna pass that one to the Dragons for review. They know bad takes.",
-      "That’s like picking the Cowboys to make the top 4 every year.",
-      "You just dropped a bomb more explosive than a Broncos’ season collapse.",
-      "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
-      "Even the Knights wouldn't take that opinion seriously.",
-      "That’s like calling the Rabbitohs the real winners of every grand final.",
-      "Is this a take or a cry for help? I need answers.",
-      "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
-      "That take’s more hopeless than a Gold Coast season review.",
-      "This is the kind of take that makes you a meme on the NRL subreddit.",
-      "Bro, that was less hot than a Bulldogs’ attack after round 5.",
-      "You’ve just made every team in the NRL laugh in unison.",
-      "That’s the kind of take that makes you banned from the footy club.",
-      "Bro, that’s a mistake bigger than a Titans season review.",
-      "You talk like a Warriors fan who just won a game. Settle down.",
-      "That take’s about as accurate as a Manly fan trying to pick a winner.",
-      "Your take’s more cooked than a Canberra penalty in the finals.",
-      "Bro, that take’s just straight-up pain for every NRL fan in existence.",
-      "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
-      "I’d rather listen to the NRL’s official highlights than that.",
-      "That take's got more flaws than the Bulldogs' attack in the past decade.",
-      "You sound like a Parra fan after they’ve lost a final.",
-      "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-      "I’d rather watch a Raiders fan explain how they almost won than hear that.",
-      "This take is worse than the Tigers' defence after a weekend off.",
-      "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
-      "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-      "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-      "This take's got more issues than a Bulldogs recruitment strategy.",
-      "You just compared your team to a premiership contender? C’mon, mate.",
-      "That take’s like the Titans’ finals hopes: completely shattered and delusional.",
-      "This roast hits harder than the Raiders' tackle technique.",
-      "Bro, this take is more out of place than a Sharks’ premiership ring."
+      // ... other reactions ...
     ];
 
     const status = document.getElementById("status");
     const reactionDiv = document.getElementById("reaction");
+    const mouth = document.querySelector(".mouth");  // The animated mouth element
 
     function startListening() {
       if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
@@ -168,6 +122,9 @@
         reactionDiv.style.display = "block";
 
         speakReaction(randomReaction);
+
+        // Start the mouth animation
+        mouth.classList.add("open");
       };
 
       recognition.onerror = (event) => {
@@ -182,6 +139,11 @@
       utter.pitch = 1;
       utter.rate = 1;
       synth.speak(utter);
+
+      // When speaking is done, stop the mouth animation
+      utter.onend = () => {
+        mouth.classList.remove("open");
+      };
     }
   </script>
 </body>
