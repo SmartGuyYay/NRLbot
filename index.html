@@ -1,81 +1,165 @@
-<script>
-  const reactions = [
-    "That take's weaker than the Warriors’ defence after a beer break.",
-    "Even the Broncos would drop that take after a pre-season trial.",
-    "Your take is like the Tigers’ finals hopes — non-existent.",
-    "You talk more rubbish than a Manly fan after a loss.",
-    "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
-    "That take’s about as accurate as a Manly fan trying to pick a winner.",
-    "This roast hits harder than the Raiders' tackle technique.",
-    "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-    "This is the kind of take that makes you a meme on the NRL subreddit.",
-    "That take's got more flaws than the Bulldogs' attack in the past decade.",
-    "I’d rather listen to the NRL’s official highlights than that.",
-    "Even the NRL refs couldn’t make a call that bad.",
-    "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-    "This take's more out of place than a Sharks’ premiership ring."
-  ];
-
-  const status = document.getElementById("status");
-  const reactionDiv = document.getElementById("reaction");
-  const mouth = document.getElementById("mouth");
-
-  function setMouthTalking(isTalking) {
-    mouth.style.animation = isTalking ? "talk 0.3s infinite" : "talk 0s";
-  }
-
-  function startListening() {
-    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      alert("Sorry, your browser doesn't support voice recognition 😢");
-      return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NRL Roast Bot</title>
+  <style>
+    body {
+      background: #000;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px 20px;
     }
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-AU';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 20px 0;
+    }
 
-    status.innerText = "Listening... 🎙️";
-    reactionDiv.style.display = "none";
+    button:hover {
+      background-color: #0056c9;
+    }
 
-    // Start mouth moving while user is talking
-    setMouthTalking(true);
+    #face {
+      font-size: 60px;
+      margin-top: 40px;
+    }
 
-    recognition.start();
+    #eyes {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-bottom: 10px;
+    }
 
-    recognition.onresult = (event) => {
-      const take = event.results[0][0].transcript;
-      status.innerText = `You said: "${take}"`;
+    .eye {
+      font-size: 50px;
+    }
 
-      const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
-      reactionDiv.innerText = `"${randomReaction}"`;
-      reactionDiv.style.display = "block";
+    #mouth {
+      font-size: 60px;
+      display: inline-block;
+      transform-origin: center;
+    }
 
-      speakReaction(randomReaction);
-    };
+    .talking {
+      animation: talk 0.3s infinite;
+    }
 
-    recognition.onerror = (event) => {
-      status.innerText = "Error: " + event.error;
-      setMouthTalking(false);
-    };
+    @keyframes talk {
+      0% { transform: scaleY(1); }
+      50% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
+    }
 
-    recognition.onend = () => {
-      // Stop mouth after you're done talking
-      setMouthTalking(false);
-    };
-  }
+    .reaction-box {
+      margin-top: 30px;
+      padding: 20px;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
 
-  function speakReaction(text) {
-    const synth = window.speechSynthesis;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'en-AU';
-    utter.pitch = 1;
-    utter.rate = 1;
+  <h1>🏉 NRL Voice Roast Bot</h1>
+  <p>Speak your hot take below ⬇️</p>
 
-    utter.onstart = () => setMouthTalking(true);
-    utter.onend = () => setMouthTalking(false);
+  <button onclick="startListening()">🎤 Start Talking</button>
 
-    synth.speak(utter);
-  }
-</script>
+  <div id="status"></div>
+  <div id="reaction" class="reaction-box" style="display: none;"></div>
+
+  <!-- Face -->
+  <div id="face">
+    <div id="eyes">
+      <div class="eye">👁️</div>
+      <div class="eye">👁️</div>
+    </div>
+    <div id="mouth">👄</div>
+  </div>
+
+  <script>
+    const reactions = [
+      "That take’s weaker than the Warriors’ defence after a beer break.",
+      "Even the Broncos would drop that take after a pre-season trial.",
+      "Your take is like the Tigers’ finals hopes — non-existent.",
+      "You talk more rubbish than a Manly fan after a loss.",
+      "That’s the kind of take that makes you a meme on the NRL subreddit.",
+      "That roast hits harder than a Raiders shoulder charge.",
+      "You're the reason NRL refs carry red cards now.",
+      "Bro... even the Titans wouldn't claim that take.",
+      "That opinion just made a Parra fan cry.",
+      "You just got sin-binned from the footy group chat.",
+    ];
+
+    const status = document.getElementById("status");
+    const reactionDiv = document.getElementById("reaction");
+    const mouth = document.getElementById("mouth");
+
+    function startListening() {
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        alert("Sorry, your browser doesn't support voice recognition 😢");
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-AU';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      status.innerText = "Listening... 🎙️";
+      reactionDiv.style.display = "none";
+
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const take = event.results[0][0].transcript;
+        status.innerText = `You said: "${take}"`;
+
+        const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
+        reactionDiv.innerText = `"${randomReaction}"`;
+        reactionDiv.style.display = "block";
+
+        speakReaction(randomReaction);
+      };
+
+      recognition.onerror = (event) => {
+        status.innerText = "Error: " + event.error;
+      };
+    }
+
+    function speakReaction(text) {
+      const synth = window.speechSynthesis;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'en-AU';
+      utter.pitch = 1;
+      utter.rate = 1;
+
+      utter.onstart = () => {
+        mouth.classList.add("talking");
+      };
+
+      utter.onend = () => {
+        mouth.classList.remove("talking");
+      };
+
+      synth.speak(utter);
+    }
+  </script>
+</body>
+</html>
