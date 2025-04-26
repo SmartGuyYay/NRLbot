@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRL React Bot</title>
+  <style>
+    body {
+      background: #000;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 100px;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 24px;
+      font-size: 16px;
+      background-color: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056c9;
+    }
+    .reaction-box {
+      margin-top: 30px;
+      padding: 20px;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 10px;
+      max-width: 600px;
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏉 NRL React Bot</h1>
+  <textarea id="takeInput" placeholder="Type your spicy NRL take..."></textarea>
+  <button onclick="reactToTake()">React!</button>
+
+  <div id="reaction" class="reaction-box" style="display: none;"></div>
+
+  <script>
+    const reactions = [
+      "Mate, that take’s colder than a Canberra winter.",
+      "Did a Roosters fan write this?",
+      "Try again after you’ve watched more than 2 games.",
+      "That’s a Queensland-level delusion right there.",
+      "I’d rather listen to the bunker ref than this take.",
+      "Even Gus Gould would roll his eyes at that.",
+      "You clearly don't watch State of Origin.",
+      "Take this to the NSW Cup, not here.",
+      "Respectfully, no.",
+      "I'm gonna pretend I didn't read that."
+    ];
+
+    function reactToTake() {
+      const take = document.getElementById('takeInput').value.trim();
+      const reactionBox = document.getElementById('reaction');
+
+      if (take === '') return;
+
+      const random = Math.floor(Math.random() * reactions.length);
+      const reaction = reactions[random];
+
+      reactionBox.innerText = `"${reaction}"`;
+      reactionBox.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
