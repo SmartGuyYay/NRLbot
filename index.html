@@ -12,6 +12,11 @@
       text-align: center;
       padding: 40px 20px;
     }
+
+    h1 {
+      font-size: 36px;
+    }
+
     button {
       padding: 15px 30px;
       font-size: 18px;
@@ -20,11 +25,13 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      margin: 20px 0;
+      margin: 30px 0;
     }
+
     button:hover {
       background-color: #0056c9;
     }
+
     .reaction-box {
       margin-top: 30px;
       padding: 20px;
@@ -36,36 +43,28 @@
       margin-right: auto;
       font-style: italic;
     }
-    .avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      margin: 20px 0;
+
+    .character-name {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0ff;
+      margin-bottom: 10px;
     }
-    /* MOUTH ANIMATION */
+
     .mouth {
       width: 80px;
       height: 40px;
-      background-color: #fff;
-      border-radius: 20px;
+      background-color: red;
       margin: 20px auto;
-      position: relative;
-    }
-
-    /* Create "talking" effect */
-    .mouth.open {
-      animation: talk 0.3s ease-in-out infinite alternate;
+      border-radius: 0 0 40px 40px;
+      animation: talk 0s infinite;
     }
 
     @keyframes talk {
-      0% {
-        height: 40px;
-      }
-      100% {
-        height: 10px;
-      }
+      0% { height: 40px; }
+      50% { height: 5px; }
+      100% { height: 40px; }
     }
-
   </style>
 </head>
 <body>
@@ -73,11 +72,8 @@
   <h1>🏉 NRL Voice Roast Bot</h1>
   <p>Speak your hot take below ⬇️</p>
 
-  <!-- Add Face or Avatar Here -->
-  <img src="https://example.com/your-face-image.jpg" alt="User's Face" class="avatar"/>
-
-  <!-- Animated Mouth -->
-  <div class="mouth"></div>
+  <h2 class="character-name">🗣️ NRL Fanbot</h2>
+  <div class="mouth" id="mouth"></div>
 
   <button onclick="startListening()">🎤 Start Talking</button>
 
@@ -87,14 +83,24 @@
   <script>
     const reactions = [
       "That take's weaker than the Warriors’ defence after a beer break.",
-      "This sounds like a Raiders fan after a loss. Stop lying to yourself.",
       "Even the Broncos would drop that take after a pre-season trial.",
-      // ... other reactions ...
+      "Your take is like the Tigers’ finals hopes — non-existent.",
+      "You talk more rubbish than a Manly fan after a loss.",
+      "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
+      "That take’s about as accurate as a Manly fan trying to pick a winner.",
+      "This roast hits harder than the Raiders' tackle technique.",
+      "That’s more ridiculous than the Knights calling themselves premiership contenders.",
+      "This is the kind of take that makes you a meme on the NRL subreddit.",
+      "That take's got more flaws than the Bulldogs' attack in the past decade.",
+      "I’d rather listen to the NRL’s official highlights than that.",
+      "Even the NRL refs couldn’t make a call that bad.",
+      "That’s like a Broncos fan claiming they invented the sport. Please stop.",
+      "This take's more out of place than a Sharks’ premiership ring."
     ];
 
     const status = document.getElementById("status");
     const reactionDiv = document.getElementById("reaction");
-    const mouth = document.querySelector(".mouth");  // The animated mouth element
+    const mouth = document.getElementById("mouth");
 
     function startListening() {
       if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
@@ -110,6 +116,7 @@
 
       status.innerText = "Listening... 🎙️";
       reactionDiv.style.display = "none";
+      mouth.style.animation = "talk 0.3s infinite";
 
       recognition.start();
 
@@ -122,13 +129,11 @@
         reactionDiv.style.display = "block";
 
         speakReaction(randomReaction);
-
-        // Start the mouth animation
-        mouth.classList.add("open");
       };
 
       recognition.onerror = (event) => {
         status.innerText = "Error: " + event.error;
+        mouth.style.animation = "talk 0s";
       };
     }
 
@@ -138,13 +143,18 @@
       utter.lang = 'en-AU';
       utter.pitch = 1;
       utter.rate = 1;
-      synth.speak(utter);
 
-      // When speaking is done, stop the mouth animation
-      utter.onend = () => {
-        mouth.classList.remove("open");
+      utter.onstart = () => {
+        mouth.style.animation = "talk 0.3s infinite";
       };
+
+      utter.onend = () => {
+        mouth.style.animation = "talk 0s";
+      };
+
+      synth.speak(utter);
     }
   </script>
+
 </body>
 </html>
