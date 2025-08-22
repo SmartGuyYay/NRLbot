@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NRL React Bot (Mic Test)</title>
+  <title>NRL React Bot (Mic Level)</title>
   <style>
     body {
       background: #000;
@@ -71,17 +71,31 @@
       margin-right: auto;
       font-style: italic;
     }
+
+    #meter {
+      width: 300px;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+    #meter-fill {
+      height: 100%;
+      width: 0%;
+      background: limegreen;
+    }
   </style>
 </head>
 <body>
 
-  <h1>🏉 NRL Voice React Bot (with Mic Test)</h1>
-  <p>First, test if your mic works 👇</p>
+  <h1>🏉 NRL Voice React Bot (Mic Level Pickup)</h1>
+  <p>Press Start and say something loud 😅</p>
 
-  <button onclick="testMic()">🎤 Test Mic</button>
-  <button onclick="startListening()">🔥 Start NRL Bot</button>
+  <button onclick="startMic()">🎤 Start Mic</button>
 
   <div id="status"></div>
+  <div id="meter"><div id="meter-fill"></div></div>
   <div id="reaction" class="reaction-box" style="display: none;"></div>
 
   <!-- Face -->
@@ -94,19 +108,6 @@
   </div>
 
   <script>
-    // Basic mic test
-    async function testMic() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        document.getElementById("status").innerText = "✅ Mic access granted!";
-        // Stop tracks after test
-        stream.getTracks().forEach(track => track.stop());
-      } catch (err) {
-        document.getElementById("status").innerText = "❌ Mic blocked: " + err.message;
-      }
-    }
-
-    // Reactions (cut down for demo)
     const reactions = [
       "That take's weaker than the Warriors’ defence after a beer break.",
       "Your take is like the Tigers’ finals hopes — non-existent.",
@@ -118,40 +119,55 @@
     const status = document.getElementById("status");
     const reactionDiv = document.getElementById("reaction");
     const mouth = document.getElementById("mouth");
+    const meterFill = document.getElementById("meter-fill");
 
-    function startListening() {
-      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-        alert("Sorry, your browser doesn't support voice recognition 😢 (try Chrome).");
-        return;
+    let audioCtx, analyser, dataArray;
+
+    async function startMic() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        status.innerText = "✅ Mic active, start talking!";
+        setupAudio(stream);
+      } catch (err) {
+        status.innerText = "❌ Mic blocked: " + err.message;
       }
+    }
 
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-AU';
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
+    function setupAudio(stream) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioCtx.createMediaStreamSource(stream);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      const bufferLength = analyser.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
 
-      recognition.onstart = () => {
-        status.innerText = "🎤 Mic is active, start talking...";
-        reactionDiv.style.display = "none";
-      };
+      source.connect(analyser);
 
-      recognition.start();
+      detectVolume();
+    }
 
-      recognition.onresult = (event) => {
-        const take = event.results[0][0].transcript;
-        status.innerText = `You said: "${take}"`;
+    let lastReactionTime = 0;
+    function detectVolume() {
+      requestAnimationFrame(detectVolume);
+      analyser.getByteFrequencyData(dataArray);
+      let volume = dataArray.reduce((a, b) => a + b) / dataArray.length;
 
-        const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
-        reactionDiv.innerText = `"${randomReaction}"`;
-        reactionDiv.style.display = "block";
+      // Update meter
+      meterFill.style.width = Math.min(100, volume) + "%";
 
-        speakReaction(randomReaction);
-      };
+      // If volume spike, react
+      if (volume > 40 && Date.now() - lastReactionTime > 3000) {
+        lastReactionTime = Date.now();
+        botReact();
+      }
+    }
 
-      recognition.onerror = (event) => {
-        status.innerText = "⚠️ Error: " + event.error;
-      };
+    function botReact() {
+      const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
+      reactionDiv.innerText = `"${randomReaction}"`;
+      reactionDiv.style.display = "block";
+
+      speakReaction(randomReaction);
     }
 
     function speakReaction(text) {
@@ -173,3 +189,4 @@
     }
   </script>
 </body>
+</html>
