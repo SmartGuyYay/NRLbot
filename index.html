@@ -21,7 +21,7 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      margin: 20px 10px;
+      margin: 20px 0;
     }
 
     button:hover {
@@ -79,6 +79,7 @@
       border-radius: 10px;
       margin: 20px auto;
       overflow: hidden;
+      display: none;
     }
     #meter-fill {
       height: 100%;
@@ -89,10 +90,10 @@
 </head>
 <body>
 
-  <h1>🏉 NRL Voice React Bot (Mic Level Pickup)</h1>
-  <p>Press Start and say something loud 😅</p>
+  <h1>🏉 NRL Voice React Bot</h1>
+  <p>Speak your hot take below ⬇️</p>
 
-  <button onclick="startMic()">🎤 Start Mic</button>
+  <button onclick="startBot()">🎤 Start Talking</button>
 
   <div id="status"></div>
   <div id="meter"><div id="meter-fill"></div></div>
@@ -108,85 +109,65 @@
   </div>
 
   <script>
+    // 🎯 ALL your roast reactions
     const reactions = [
       "That take's weaker than the Warriors’ defence after a beer break.",
       "Your take is like the Tigers’ finals hopes — non-existent.",
       "Bro, that take’s colder than a Melbourne winter.",
       "Even the NRL refs couldn’t make a call that bad.",
-      "This take is worse than the Tigers' defence after a weekend off."
+      "This take is worse than the Tigers' defence after a weekend off.",
+      // ... (keep your giant list here)
     ];
 
     const status = document.getElementById("status");
     const reactionDiv = document.getElementById("reaction");
     const mouth = document.getElementById("mouth");
     const meterFill = document.getElementById("meter-fill");
+    const meter = document.getElementById("meter");
 
-    let audioCtx, analyser, dataArray;
+    let audioCtx, analyser, dataArray, lastReactionTime = 0;
 
-    async function startMic() {
+    // Main start function
+    function startBot() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        startListening(); // try voice recognition
+      } else {
+        status.innerText = "⚠️ Speech recognition not supported. Using mic volume instead.";
+        startMicFallback();
+      }
+    }
+
+    // 🎙️ Speech recognition
+    function startListening() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-AU';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      status.innerText = "Listening... 🎙️";
+      reactionDiv.style.display = "none";
+
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const take = event.results[0][0].transcript;
+        status.innerText = `You said: "${take}"`;
+
+        const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
+        reactionDiv.innerText = `"${randomReaction}"`;
+        reactionDiv.style.display = "block";
+
+        speakReaction(randomReaction);
+      };
+
+      recognition.onerror = (event) => {
+        status.innerText = "⚠️ Speech recognition failed, using mic volume.";
+        startMicFallback();
+      };
+    }
+
+    // 🎚️ Fallback mic volume detection
+    async function startMicFallback() {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        status.innerText = "✅ Mic active, start talking!";
-        setupAudio(stream);
-      } catch (err) {
-        status.innerText = "❌ Mic blocked: " + err.message;
-      }
-    }
-
-    function setupAudio(stream) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioCtx.createMediaStreamSource(stream);
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      const bufferLength = analyser.frequencyBinCount;
-      dataArray = new Uint8Array(bufferLength);
-
-      source.connect(analyser);
-
-      detectVolume();
-    }
-
-    let lastReactionTime = 0;
-    function detectVolume() {
-      requestAnimationFrame(detectVolume);
-      analyser.getByteFrequencyData(dataArray);
-      let volume = dataArray.reduce((a, b) => a + b) / dataArray.length;
-
-      // Update meter
-      meterFill.style.width = Math.min(100, volume) + "%";
-
-      // If volume spike, react
-      if (volume > 40 && Date.now() - lastReactionTime > 3000) {
-        lastReactionTime = Date.now();
-        botReact();
-      }
-    }
-
-    function botReact() {
-      const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
-      reactionDiv.innerText = `"${randomReaction}"`;
-      reactionDiv.style.display = "block";
-
-      speakReaction(randomReaction);
-    }
-
-    function speakReaction(text) {
-      const synth = window.speechSynthesis;
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'en-AU';
-      utter.pitch = 1;
-      utter.rate = 1;
-
-      utter.onstart = () => {
-        mouth.classList.add("talking");
-      };
-
-      utter.onend = () => {
-        mouth.classList.remove("talking");
-      };
-
-      synth.speak(utter);
-    }
-  </script>
-</body>
-</html>
+        const stre
