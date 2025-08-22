@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NRL React Bot</title>
+  <title>NRL React Bot (Mic Test)</title>
   <style>
     body {
       background: #000;
@@ -21,7 +21,7 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      margin: 20px 0;
+      margin: 20px 10px;
     }
 
     button:hover {
@@ -75,10 +75,11 @@
 </head>
 <body>
 
-  <h1>🏉 NRL Voice React Bot</h1>
-  <p>Speak your hot take below ⬇️</p>
+  <h1>🏉 NRL Voice React Bot (with Mic Test)</h1>
+  <p>First, test if your mic works 👇</p>
 
-  <button onclick="startListening()">🎤 Start Talking</button>
+  <button onclick="testMic()">🎤 Test Mic</button>
+  <button onclick="startListening()">🔥 Start NRL Bot</button>
 
   <div id="status"></div>
   <div id="reaction" class="reaction-box" style="display: none;"></div>
@@ -93,195 +94,26 @@
   </div>
 
   <script>
-// Adding all reactions to your existing code
-const reactions = [
-  "That take's weaker than the Warriors’ defence after a beer break.",
-  "This sounds like a Raiders fan after a loss. Stop lying to yourself.",
-  "Even the Broncos would drop that take after a pre-season trial.",
-  "Your take is like the Tigers’ finals hopes — non-existent.",
-  "That’s the sort of take a Newcastle fan would say after 3 beers.",
-  "Is that your footy knowledge or just the sound of a hornet’s nest?",
-  "You talk more rubbish than a Manly fan after a loss.",
-  "Bro, you could’ve at least *tried* to get this take right.",
-  "I haven’t seen this much delusion since the Bulldogs’ last premiership win.",
-  "Did a Parra fan write that or was it just their hopes?",
-  "This take is more cooked than a Cowboys' away game.",
-  "I’ve seen more passion in a pre-season trial match.",
-  "Is this the take you give your mates after losing the footy tipping comp?",
-  "That take’s got less support than the Dolphins in 2023.",
-  "You're the reason we need a challenge system in real life.",
-  "Bro, that take’s colder than a Melbourne winter.",
-  "Even the NRL refs couldn’t make a call that bad.",
-  "You might wanna pass that one to the Dragons for review. They know bad takes.",
-  "That’s like picking the Cowboys to make the top 4 every year.",
-  "You just dropped a bomb more explosive than a Broncos’ season collapse.",
-  "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
-  "Even the Knights wouldn't take that opinion seriously.",
-  "That’s like calling the Rabbitohs the real winners of every grand final.",
-  "Is this a take or a cry for help? I need answers.",
-  "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
-  "That take’s more hopeless than a Gold Coast season review.",
-  "This is the kind of take that makes you a meme on the NRL subreddit.",
-  "Bro, that was less hot than a Bulldogs’ attack after round 5.",
-  "You’ve just made every team in the NRL laugh in unison.",
-  "That’s the kind of take that makes you banned from the footy club.",
-  "Bro, that’s a mistake bigger than a Titans season review.",
-  "You talk like a Warriors fan who just won a game. Settle down.",
-  "That take’s about as accurate as a Manly fan trying to pick a winner.",
-  "Your take’s more cooked than a Canberra penalty in the finals.",
-  "Bro, that take’s just straight-up pain for every NRL fan in existence.",
-  "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
-  "I’d rather listen to the NRL’s official highlights than that.",
-  "That take's got more flaws than the Bulldogs' attack in the past decade.",
-  "You sound like a Parra fan after they’ve lost a final.",
-  "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-  "I’d rather watch a Raiders fan explain how they almost won than hear that.",
-  "This take is worse than the Tigers' defence after a weekend off.",
-  "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
-  "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-  "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-  "This take's got more issues than a Bulldogs recruitment strategy.",
-  "You just compared your team to a premiership contender? C’mon, mate.",
-  "That take’s like the Titans’ finals hopes: completely shattered and delusional.",
-  "This roast hits harder than the Raiders' tackle technique.",
-  "Bro, this take is more out of place than a Sharks’ premiership ring.",
-  "That take's got less structure than the Tigers' attack.",
-  "Your opinion’s more inconsistent than the NRL ref calls.",
-  "Bro, even the Warriors would reject that take for being too negative.",
-  "I’ve seen better analysis from a kid playing SuperCoach in their lunch break.",
-  "That’s like picking the Cowboys to make the top 4 every year.",
-  "You just dropped a bomb more explosive than a Broncos’ season collapse.",
-  "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
-  "Even the Knights wouldn't take that opinion seriously.",
-  "That’s like calling the Rabbitohs the real winners of every grand final.",
-  "Is this a take or a cry for help? I need answers.",
-  "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
-  "That take’s more hopeless than a Gold Coast season review.",
-  "This is the kind of take that makes you a meme on the NRL subreddit.",
-  "Bro, that was less hot than a Bulldogs’ attack after round 5.",
-  "You’ve just made every team in the NRL laugh in unison.",
-  "That’s the kind of take that makes you banned from the footy club.",
-  "Bro, that’s a mistake bigger than a Titans season review.",
-  "You talk like a Warriors fan who just won a game. Settle down.",
-  "That take’s about as accurate as a Manly fan trying to pick a winner.",
-  "Your take’s more cooked than a Canberra penalty in the finals.",
-  "Bro, that take’s just straight-up pain for every NRL fan in existence.",
-  "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
-  "I’d rather listen to the NRL’s official highlights than that.",
-  "That take's got more flaws than the Bulldogs' attack in the past decade.",
-  "You sound like a Parra fan after they’ve lost a final.",
-  "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-  "I’d rather watch a Raiders fan explain how they almost won than hear that.",
-  "This take is worse than the Tigers' defence after a weekend off.",
-  "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
-  "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-  "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-  "This take's got more issues than a Bulldogs recruitment strategy.",
-  "You just compared your team to a premiership contender? C’mon, mate.",
-  "That take’s like the Titans’ finals hopes: completely shattered and delusional.",
-  "This roast hits harder than the Raiders' tackle technique.",
-  "Bro, this take is more out of place than a Sharks’ premiership win.",
-  "Mate, I’ve seen better decisions from a busted bunker review.",
-  "This opinion’s got more holes than the Tigers’ backline.",
-  "You talking footy is like a prop trying to kick a field goal. Painful.",
-  "You’re chatting like a bloke who still thinks the Cowboys are top 4.",
-  "You sound like a Raiders fan in March — way too confident, mate.",
-  "Honestly, even the Bulldogs' attack makes more sense than that.",
-  "Feels like you wrote that after a few too many at the Leagues Club.",
-  "Bro, your footy IQ’s dropping faster than the Dragons on the ladder.",
-  "That's something only a Parramatta supporter could believe.",
-  "I've heard better gameplans yelled from the sideline at U6s.",
-  "You talking strategy? Might as well get a cat to coach.",
-  "This is exactly why the Warriors get roasted every season.",
-  "Even Newcastle's rebuild looks more promising than that thought.",
-  "You're giving off strong 'we nearly made the finals' energy.",
-  "Are you applying for Tigers coach or just talking rubbish for free?",
-  "Feels like you’re still celebrating that trial win in January.",
-  "You’ve got more excuses than a Roosters fan after a bad season.",
-  "This is the same energy as a Sharks fan bragging in May.",
-  "You should frame that comment and hang it in the Bulldogs HQ.",
-  "This chat's moving backwards faster than the Knights’ rebuild.",
-  "You're sounding like Souths after round 5 — pure delusion.",
-  "Did you come up with that during the halftime toilet break?",
-  "Mate, even the refs would call that opinion a howler.",
-  "You’re running your mouth like the Eels after one good win.",
-  "Might as well hand you a jersey with 'Benchwarmer' on the back.",
-  "That statement’s falling apart quicker than the Raiders defence.",
-  "You sound like a bloke who picked Tigers for top 8 unironically.",
-  "Are you coaching the Titans or just giving them ideas?",
-  "This has less structure than a busted scrum at park footy.",
-  "You’re throwing more shade than a Broncos fan after finals.",
-  "Your chat’s got more missed tackles than a Sunday arvo pub team.",
-  "You're just adding fuel to a fire that was already out.",
-  "Might want to take a spell, you’re gassed worse than a prop in golden point.",
-  "This convo’s making less sense than the NRL draw every year.",
-  "You’re about as reliable as a Knights winning streak.",
-  "Feels like you wrote that during a 60-0 flogging.",
-  "Keep talking, you might get signed by the Dragons.",
-  "You’re making less sense than a Manly fan bragging about 2008.",
-  "I've seen more solid arguments from a bloke three beers deep.",
-  "Sounds like you’re still living off 2015 memories, mate.",
-  "You're talking like someone who thinks Origin is won in January.",
-  "That idea’s falling apart quicker than a Parra finals run.",
-  "Someone call the Bunker, this bloke needs reviewing.",
-  "Mate, that logic’s been on the piss since Mad Monday.",
-  "Even the Dolphins would leave you out of the 17.",
-  "You’ve got more spin than a fullback under a bomb.",
-  "Feels like you got that opinion off Facebook comments.",
-  "Bro, you're confusing effort with actual results again.",
-  "That take’s better than a dummy half break straight through the line.",
-  "Mate, you just nailed it like a fullback under a high ball.",
-  "That’s the kind of take that makes me want to jump out of my seat.",
-  "Your analysis just hit harder than a big hit from the back row.",
-  "Bro, that’s more accurate than a halfback’s game-winning kick.",
-  "That call’s as clean as a try-saving tackle in the 79th minute.",
-  "That’s a take that’ll make the NRL highlights reel for sure.",
-  "You just broke it down like you’ve been watching replays for days.",
-  "You’ve got more footy IQ than the whole coaching staff combined.",
-  "That’s a classic NRL moment in the making right there.",
-  "You’ve got more insight than a team meeting before finals.",
-  "That take’s smoother than a halfback’s skip pass to the winger.",
-  "That’s the kind of analysis you’d hear from a veteran like Joey Johns.",
-  "Mate, you’ve read the game like you’re in the sheds with the coach.",
-  "That’s a take that even the players would give a nod to.",
-  "That’s more solid than a front-rower’s defence on the try line.",
-  "You’ve just broken it down like a pro commentator during a grand final.",
-  "That’s sharper than a winger’s step when they’re in space.",
-  "That’s a take that deserves its own highlight reel.",
-  "You’re talking footy like it’s a second language — fluent and flawless.",
-  "That’s as sharp as a dummy from a halfback in the red zone.",
-  "You’ve nailed that like a winger scoring in the corner after a break.",
-  "Mate, that take is like a perfect kick-off: right on the money.",
-  "That’s smarter than an Origin team selection.",
-  "Bro, you just turned that take into a try assist.",
-  "That’s like having a seasoned veteran on the field — spot on.",
-  "You just broke down the game like you’ve been analyzing it for years.",
-  "That’s as clean as a playmaker’s cut-out pass under pressure.",
-  "Mate, if footy takes were tries, you’d be leading the competition.",
-  "That’s a take as smooth as a fullback’s counter-attack from the 20m.",
-  "You’ve nailed it like a field goal in the dying seconds of a tied match.",
-  "That’s as solid as a middle forward’s effort to punch through the defence.",
-  "You just called that like you’re already in the commentary box.",
-  "That’s more precise than a back-rower’s tackle technique.",
-  "Mate, you’ve got the vision of a halfback in the dying minutes of a final.",
-  "That’s got more finesse than a winger chasing a kick from the 40m.",
-  "Bro, that’s as insightful as a coach’s post-game breakdown.",
-  "That take’s got more impact than a last-minute try on the buzzer.",
-  "You just read the game like a centre under the high ball.",
-  "That’s a take that would make any coach pause and rethink.",
-  "That’s as clean as a conversion attempt from the sideline.",
-  "Mate, you’ve got more footy smarts than half the starting line-ups.",
-  "You’ve dissected that play like a video ref in slow motion.",
-  "That take is like a well-timed intercept pass in the dying moments.",
-  "Bro, you just set up a try with that analysis!",
-  "That’s smarter than a back-rower reading the ball on the edge.",
-  "You’ve broken that down like a front-rower running it in at full speed.",
-  "That take is as smooth as a well-executed switch play.",
-  "Mate, you’ve got more knowledge than a fullback’s positioning on the last tackle.",
-  "You’ve just outclassed most of the analysts in the game with that one.",
-  "That’s a take that deserves its own highlight package!",
-  "You just nailed that analysis like a hooker hitting the mark with a quick tap.",
-];
+    // Basic mic test
+    async function testMic() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        document.getElementById("status").innerText = "✅ Mic access granted!";
+        // Stop tracks after test
+        stream.getTracks().forEach(track => track.stop());
+      } catch (err) {
+        document.getElementById("status").innerText = "❌ Mic blocked: " + err.message;
+      }
+    }
+
+    // Reactions (cut down for demo)
+    const reactions = [
+      "That take's weaker than the Warriors’ defence after a beer break.",
+      "Your take is like the Tigers’ finals hopes — non-existent.",
+      "Bro, that take’s colder than a Melbourne winter.",
+      "Even the NRL refs couldn’t make a call that bad.",
+      "This take is worse than the Tigers' defence after a weekend off."
+    ];
 
     const status = document.getElementById("status");
     const reactionDiv = document.getElementById("reaction");
@@ -289,7 +121,7 @@ const reactions = [
 
     function startListening() {
       if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-        alert("Sorry, your browser doesn't support voice recognition 😢");
+        alert("Sorry, your browser doesn't support voice recognition 😢 (try Chrome).");
         return;
       }
 
@@ -299,8 +131,10 @@ const reactions = [
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
-      status.innerText = "Listening... 🎙️";
-      reactionDiv.style.display = "none";
+      recognition.onstart = () => {
+        status.innerText = "🎤 Mic is active, start talking...";
+        reactionDiv.style.display = "none";
+      };
 
       recognition.start();
 
@@ -316,7 +150,7 @@ const reactions = [
       };
 
       recognition.onerror = (event) => {
-        status.innerText = "Error: " + event.error;
+        status.innerText = "⚠️ Error: " + event.error;
       };
     }
 
@@ -339,4 +173,3 @@ const reactions = [
     }
   </script>
 </body>
-</html>
