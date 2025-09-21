@@ -19,7 +19,6 @@
     #mouth { font-size:60px; display:inline-block; transform-origin:center; }
     .talking { animation:talk .28s infinite; }
     @keyframes talk { 0%{transform:scaleY(1)} 50%{transform:scaleY(.35)} 100%{transform:scaleY(1)} }
-    code { background:#111; padding:2px 6px; border-radius:6px; }
   </style>
 </head>
 <body>
@@ -39,196 +38,8 @@
   </div>
 
   <script>
-    // --- Reactions (paste your huge list here if you want) ---
-    const REACTIONS = [
-"That take's weaker than the Warriors’ defence after a beer break.",
-  "This sounds like a Raiders fan after a loss. Stop lying to yourself.",
-  "Even the Broncos would drop that take after a pre-season trial.",
-  "Your take is like the Tigers’ finals hopes — non-existent.",
-  "That’s the sort of take a Newcastle fan would say after 3 beers.",
-  "Is that your footy knowledge or just the sound of a hornet’s nest?",
-  "You talk more rubbish than a Manly fan after a loss.",
-  "Bro, you could’ve at least *tried* to get this take right.",
-  "I haven’t seen this much delusion since the Bulldogs’ last premiership win.",
-  "Did a Parra fan write that or was it just their hopes?",
-  "This take is more cooked than a Cowboys' away game.",
-  "I’ve seen more passion in a pre-season trial match.",
-  "Is this the take you give your mates after losing the footy tipping comp?",
-  "That take’s got less support than the Dolphins in 2023.",
-  "You're the reason we need a challenge system in real life.",
-  "Bro, that take’s colder than a Melbourne winter.",
-  "Even the NRL refs couldn’t make a call that bad.",
-  "You might wanna pass that one to the Dragons for review. They know bad takes.",
-  "That’s like picking the Cowboys to make the top 4 every year.",
-  "You just dropped a bomb more explosive than a Broncos’ season collapse.",
-  "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
-  "Even the Knights wouldn't take that opinion seriously.",
-  "That’s like calling the Rabbitohs the real winners of every grand final.",
-  "Is this a take or a cry for help? I need answers.",
-  "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
-  "That take’s more hopeless than a Gold Coast season review.",
-  "This is the kind of take that makes you a meme on the NRL subreddit.",
-  "Bro, that was less hot than a Bulldogs’ attack after round 5.",
-  "You’ve just made every team in the NRL laugh in unison.",
-  "That’s the kind of take that makes you banned from the footy club.",
-  "Bro, that’s a mistake bigger than a Titans season review.",
-  "You talk like a Warriors fan who just won a game. Settle down.",
-  "That take’s about as accurate as a Manly fan trying to pick a winner.",
-  "Your take’s more cooked than a Canberra penalty in the finals.",
-  "Bro, that take’s just straight-up pain for every NRL fan in existence.",
-  "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
-  "I’d rather listen to the NRL’s official highlights than that.",
-  "That take's got more flaws than the Bulldogs' attack in the past decade.",
-  "You sound like a Parra fan after they’ve lost a final.",
-  "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-  "I’d rather watch a Raiders fan explain how they almost won than hear that.",
-  "This take is worse than the Tigers' defence after a weekend off.",
-  "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
-  "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-  "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-  "This take's got more issues than a Bulldogs recruitment strategy.",
-  "You just compared your team to a premiership contender? C’mon, mate.",
-  "That take’s like the Titans’ finals hopes: completely shattered and delusional.",
-  "This roast hits harder than the Raiders' tackle technique.",
-  "Bro, this take is more out of place than a Sharks’ premiership ring.",
-  "That take's got less structure than the Tigers' attack.",
-  "Your opinion’s more inconsistent than the NRL ref calls.",
-  "Bro, even the Warriors would reject that take for being too negative.",
-  "I’ve seen better analysis from a kid playing SuperCoach in their lunch break.",
-  "That’s like picking the Cowboys to make the top 4 every year.",
-  "You just dropped a bomb more explosive than a Broncos’ season collapse.",
-  "Bro, that’s the kind of take you hear after someone’s been hit by a tackle.",
-  "Even the Knights wouldn't take that opinion seriously.",
-  "That’s like calling the Rabbitohs the real winners of every grand final.",
-  "Is this a take or a cry for help? I need answers.",
-  "That’s like a Manly fan trying to explain why they’re the best team in the NRL.",
-  "That take’s more hopeless than a Gold Coast season review.",
-  "This is the kind of take that makes you a meme on the NRL subreddit.",
-  "Bro, that was less hot than a Bulldogs’ attack after round 5.",
-  "You’ve just made every team in the NRL laugh in unison.",
-  "That’s the kind of take that makes you banned from the footy club.",
-  "Bro, that’s a mistake bigger than a Titans season review.",
-  "You talk like a Warriors fan who just won a game. Settle down.",
-  "That take’s about as accurate as a Manly fan trying to pick a winner.",
-  "Your take’s more cooked than a Canberra penalty in the finals.",
-  "Bro, that take’s just straight-up pain for every NRL fan in existence.",
-  "That sounds like something you'd hear in a Roosters supporter’s delusional dream.",
-  "I’d rather listen to the NRL’s official highlights than that.",
-  "That take's got more flaws than the Bulldogs' attack in the past decade.",
-  "You sound like a Parra fan after they’ve lost a final.",
-  "That’s more ridiculous than the Knights calling themselves premiership contenders.",
-  "I’d rather watch a Raiders fan explain how they almost won than hear that.",
-  "This take is worse than the Tigers' defence after a weekend off.",
-  "I’d rather be stuck in a stadium with a Manly fan than hear that take again.",
-  "Bro, this is like the Storm's salary cap — it just doesn’t make sense.",
-  "That’s like a Broncos fan claiming they invented the sport. Please stop.",
-  "This take's got more issues than a Bulldogs recruitment strategy.",
-  "You just compared your team to a premiership contender? C’mon, mate.",
-  "That take’s like the Titans’ finals hopes: completely shattered and delusional.",
-  "This roast hits harder than the Raiders' tackle technique.",
-  "Bro, this take is more out of place than a Sharks’ premiership win.",
-  "Mate, I’ve seen better decisions from a busted bunker review.",
-  "This opinion’s got more holes than the Tigers’ backline.",
-  "You talking footy is like a prop trying to kick a field goal. Painful.",
-  "You’re chatting like a bloke who still thinks the Cowboys are top 4.",
-  "You sound like a Raiders fan in March — way too confident, mate.",
-  "Honestly, even the Bulldogs' attack makes more sense than that.",
-  "Feels like you wrote that after a few too many at the Leagues Club.",
-  "Bro, your footy IQ’s dropping faster than the Dragons on the ladder.",
-  "That's something only a Parramatta supporter could believe.",
-  "I've heard better gameplans yelled from the sideline at U6s.",
-  "You talking strategy? Might as well get a cat to coach.",
-  "This is exactly why the Warriors get roasted every season.",
-  "Even Newcastle's rebuild looks more promising than that thought.",
-  "You're giving off strong 'we nearly made the finals' energy.",
-  "Are you applying for Tigers coach or just talking rubbish for free?",
-  "Feels like you’re still celebrating that trial win in January.",
-  "You’ve got more excuses than a Roosters fan after a bad season.",
-  "This is the same energy as a Sharks fan bragging in May.",
-  "You should frame that comment and hang it in the Bulldogs HQ.",
-  "This chat's moving backwards faster than the Knights’ rebuild.",
-  "You're sounding like Souths after round 5 — pure delusion.",
-  "Did you come up with that during the halftime toilet break?",
-  "Mate, even the refs would call that opinion a howler.",
-  "You’re running your mouth like the Eels after one good win.",
-  "Might as well hand you a jersey with 'Benchwarmer' on the back.",
-  "That statement’s falling apart quicker than the Raiders defence.",
-  "You sound like a bloke who picked Tigers for top 8 unironically.",
-  "Are you coaching the Titans or just giving them ideas?",
-  "This has less structure than a busted scrum at park footy.",
-  "You’re throwing more shade than a Broncos fan after finals.",
-  "Your chat’s got more missed tackles than a Sunday arvo pub team.",
-  "You're just adding fuel to a fire that was already out.",
-  "Might want to take a spell, you’re gassed worse than a prop in golden point.",
-  "This convo’s making less sense than the NRL draw every year.",
-  "You’re about as reliable as a Knights winning streak.",
-  "Feels like you wrote that during a 60-0 flogging.",
-  "Keep talking, you might get signed by the Dragons.",
-  "You’re making less sense than a Manly fan bragging about 2008.",
-  "I've seen more solid arguments from a bloke three beers deep.",
-  "Sounds like you’re still living off 2015 memories, mate.",
-  "You're talking like someone who thinks Origin is won in January.",
-  "That idea’s falling apart quicker than a Parra finals run.",
-  "Someone call the Bunker, this bloke needs reviewing.",
-  "Mate, that logic’s been on the piss since Mad Monday.",
-  "Even the Dolphins would leave you out of the 17.",
-  "You’ve got more spin than a fullback under a bomb.",
-  "Feels like you got that opinion off Facebook comments.",
-  "Bro, you're confusing effort with actual results again.",
-  "That take’s better than a dummy half break straight through the line.",
-  "Mate, you just nailed it like a fullback under a high ball.",
-  "That’s the kind of take that makes me want to jump out of my seat.",
-  "Your analysis just hit harder than a big hit from the back row.",
-  "Bro, that’s more accurate than a halfback’s game-winning kick.",
-  "That call’s as clean as a try-saving tackle in the 79th minute.",
-  "That’s a take that’ll make the NRL highlights reel for sure.",
-  "You just broke it down like you’ve been watching replays for days.",
-  "You’ve got more footy IQ than the whole coaching staff combined.",
-  "That’s a classic NRL moment in the making right there.",
-  "You’ve got more insight than a team meeting before finals.",
-  "That take’s smoother than a halfback’s skip pass to the winger.",
-  "That’s the kind of analysis you’d hear from a veteran like Joey Johns.",
-  "Mate, you’ve read the game like you’re in the sheds with the coach.",
-  "That’s a take that even the players would give a nod to.",
-  "That’s more solid than a front-rower’s defence on the try line.",
-  "You’ve just broken it down like a pro commentator during a grand final.",
-  "That’s sharper than a winger’s step when they’re in space.",
-  "That’s a take that deserves its own highlight reel.",
-  "You’re talking footy like it’s a second language — fluent and flawless.",
-  "That’s as sharp as a dummy from a halfback in the red zone.",
-  "You’ve nailed that like a winger scoring in the corner after a break.",
-  "Mate, that take is like a perfect kick-off: right on the money.",
-  "That’s smarter than an Origin team selection.",
-  "Bro, you just turned that take into a try assist.",
-  "That’s like having a seasoned veteran on the field — spot on.",
-  "You just broke down the game like you’ve been analyzing it for years.",
-  "That’s as clean as a playmaker’s cut-out pass under pressure.",
-  "Mate, if footy takes were tries, you’d be leading the competition.",
-  "That’s a take as smooth as a fullback’s counter-attack from the 20m.",
-  "You’ve nailed it like a field goal in the dying seconds of a tied match.",
-  "That’s as solid as a middle forward’s effort to punch through the defence.",
-  "You just called that like you’re already in the commentary box.",
-  "That’s more precise than a back-rower’s tackle technique.",
-  "Mate, you’ve got the vision of a halfback in the dying minutes of a final.",
-  "That’s got more finesse than a winger chasing a kick from the 40m.",
-  "Bro, that’s as insightful as a coach’s post-game breakdown.",
-  "That take’s got more impact than a last-minute try on the buzzer.",
-  "You just read the game like a centre under the high ball.",
-  "That’s a take that would make any coach pause and rethink.",
-  "That’s as clean as a conversion attempt from the sideline.",
-  "Mate, you’ve got more footy smarts than half the starting line-ups.",
-  "You’ve dissected that play like a video ref in slow motion.",
-  "That take is like a well-timed intercept pass in the dying moments.",
-  "Bro, you just set up a try with that analysis!",
-  "That’s smarter than a back-rower reading the ball on the edge.",
-  "You’ve broken that down like a front-rower running it in at full speed.",
-  "That take is as smooth as a well-executed switch play.",
-  "Mate, you’ve got more knowledge than a fullback’s positioning on the last tackle.",
-  "You’ve just outclassed most of the analysts in the game with that one.",
-  "That’s a take that deserves its own highlight package!",
-  "This rage quit is like the Leaguie seeing roosters get defeated. As beautiful as friendship.",
-  "You just nailed that analysis like a hooker hitting the mark with a quick tap.",
-    ];
+    // 🔑 Replace with your Groq API key
+    const GROQ_API_KEY = "gsk_YOUR_KEY_HERE";
 
     // --- Elements ---
     const enableBtn  = document.getElementById('enable');
@@ -253,128 +64,144 @@
 
     // --- Utilities ---
     const wait = (ms) => new Promise(r=>setTimeout(r, ms));
-    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-    const norm = (s) => s.toLowerCase().replace(/[^\w\s']/g,'').trim(); // basic normalize
+    const norm = (s) => s.toLowerCase().replace(/[^\w\s']/g,'').trim();
 
     // Unlock audio & mic by user gesture, then loop
     enableBtn.addEventListener('click', async () => {
       enableBtn.disabled = true;
       heardEl.textContent = "🎤 Mic requested… allow the permission popup if prompted.";
 
-      // Pre-warm speech synthesis (autoplay policies)
       if (hasSynthesis) {
         try {
           const u = new SpeechSynthesisUtterance("Ready.");
-          u.volume = 0; // silent unlock
-          u.rate = 1;
+          u.volume = 0;
           u.lang = "en-AU";
           window.speechSynthesis.speak(u);
         } catch {}
       }
 
-      // Ask for mic permission at least once so the browser shows the prompt
       try {
         await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch (e) {
-        heardEl.textContent = "🚫 Mic permission denied. Please allow the mic and click again.";
+        heardEl.textContent = "🚫 Mic permission denied.";
         enableBtn.disabled = false;
         return;
       }
 
       if (!hasRecognition) {
         heardEl.textContent =
-          "⚠️ Your browser doesn’t support speech recognition. Use Chrome or Edge.\n" +
-          "Alternative: wire this page to a server STT (e.g., Whisper/Vosk) via fetch/WebSocket.";
+          "⚠️ Browser doesn’t support recognition. Use Chrome/Edge.";
         enableBtn.disabled = false;
         return;
       }
 
-      heardEl.textContent = "✅ Mic enabled. Say “Hey React Bot …” whenever you like.";
-      loopListen(); // start infinite loop
+      heardEl.textContent = "✅ Mic enabled. Say “Hey React Bot …”";
+      loopListen();
     });
 
-    // Main loop: listen once -> maybe roast -> repeat
     async function loopListen() {
       while (true) {
-        const transcript = await listenOnce();     // waits for a single utterance
-        if (!transcript) { continue; }
+        const transcript = await listenOnce();
+        if (!transcript) continue;
 
-        // show what we heard
         heardEl.textContent = "👂 Heard: " + transcript;
 
-        // wake phrase check
         const cleaned = norm(transcript);
         if (cleaned.startsWith("hey react")) {
-          // extract what the user said after the wake phrase
           const after = transcript.slice(transcript.toLowerCase().indexOf("hey react bot") + "hey react bot".length).trim();
           await roast(after || transcript);
         }
-
-        // small breather before next listen
         await wait(150);
       }
     }
 
-    // Listen for one phrase (Chrome/Edge webkitSpeechRecognition is most reliable non-API way)
     function listenOnce() {
       return new Promise((resolve) => {
         const rec = new SpeechRecognition();
         rec.lang = "en-AU";
-        rec.interimResults = true;   // show live text
+        rec.interimResults = true;
         rec.maxAlternatives = 1;
-        rec.continuous = false;      // one phrase, then end on its own pause
+        rec.continuous = false;
 
-        let interim = "";
         let finalText = "";
+        let interim = "";
 
         rec.onresult = (e) => {
           interim = "";
           for (let i = e.resultIndex; i < e.results.length; i++) {
             const chunk = e.results[i][0].transcript;
-            if (e.results[i].isFinal) {
-              finalText += chunk;
-            } else {
-              interim += chunk;
-            }
+            if (e.results[i].isFinal) finalText += chunk;
+            else interim += chunk;
           }
-          // live update
-          const live = (finalText + " " + interim).trim();
-          if (live) heardEl.textContent = "👂 Heard: " + live;
+          heardEl.textContent = "👂 Heard: " + (finalText + " " + interim).trim();
         };
 
         rec.onerror = () => resolve("");
         rec.onend   = () => resolve((finalText || interim || "").trim());
 
-        try {
-          rec.start();
-        } catch {
-          // rare race; resolve quickly to keep loop going
-          resolve("");
-        }
+        try { rec.start(); } catch { resolve(""); }
       });
     }
 
     async function roast(userSaid) {
-      // Pick roast
-      const line = pick(REACTIONS);
+      // Decide serious vs roast mode
+      const is_question = userSaid.includes("?") || userSaid.toLowerCase().startsWith("what");
+      const force_serious = userSaid.toLowerCase().includes("serious");
+      let system_prompt = "";
 
-      // Show on screen
+      if (force_serious || (is_question && !force_serious)) {
+        system_prompt = `You're React Bot: an Aussie NRL fan who can also answer normal questions properly and who supports the rugby league Amsterdam Cobras, but no NRL team. There are 3 R's in strawberry.
+- Answer questions factually and clearly.
+- Never swear.`;
+      } else {
+        system_prompt = `You're React Bot: a savage Aussie NRL fan who supports the Amsterdam Cobras.
+- Respond with short, funny one-liner roasts.
+- Use footy slang.
+- Keep under 25 words.`;
+      }
+
+      // Call Groq
+      const reply = await callGroq(system_prompt, userSaid);
+
+      // Show
       reactEl.style.display = "block";
-      reactEl.textContent = `You said:\n“${userSaid}”\n\nReact Bot:\n“${line}”`;
+      reactEl.textContent = `You said:\n“${userSaid}”\n\nReact Bot:\n“${reply}”`;
 
       // Talk with mouth animation
       mouthEl.classList.add("talking");
       if (hasSynthesis) {
-        const u = new SpeechSynthesisUtterance(line);
+        const u = new SpeechSynthesisUtterance(reply);
         u.lang = "en-AU";
         u.rate = 0.95;
         u.onend = () => mouthEl.classList.remove("talking");
         try { window.speechSynthesis.speak(u); }
         catch { mouthEl.classList.remove("talking"); }
       } else {
-        // fallback: stop mouth after a short moment
         await wait(1200);
         mouthEl.classList.remove("talking");
+      }
+    }
+
+    async function callGroq(system_prompt, user_input) {
+      try {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${GROQ_API_KEY}`
+          },
+          body: JSON.stringify({
+            model: "llama3-8b-8192",
+            messages: [
+              { role: "system", content: system_prompt },
+              { role: "user", content: user_input }
+            ]
+          })
+        });
+        const data = await res.json();
+        return data.choices?.[0]?.message?.content || "(no response)";
+      } catch (e) {
+        return "⚠️ Error talking to Groq API.";
       }
     }
   </script>
