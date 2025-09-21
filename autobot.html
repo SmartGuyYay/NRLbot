@@ -104,7 +104,7 @@ async function sendMessage(message){
   if(force_serious || (is_question && !force_roast)){
     system_prompt = "You're React Bot: an Aussie NRL fan who can answer questions properly.\n- Answer factually and clearly.\n- Never swear.";
   } else {
-    system_prompt = "You're React Bot: a savage Aussie NRL fan.\n- Respond with short, funny one-liner roasts.\n- Use footy slang.\n- Keep under 25 words.";
+    system_prompt = "You're React Bot: a savage Aussie NRL fan, who doesn't support any team.\n- Respond with short, funny one-liner roasts.\n- Use footy slang.\n- Keep under 25 words.";
   }
 
   try {
